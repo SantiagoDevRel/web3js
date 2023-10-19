@@ -1,10 +1,8 @@
+const { abi, bytecode } = require("../artifacts/contracts/cs.sol/cs.json");
 const { Web3 } = require("web3");
 require("dotenv").config();
 
-const { abi, bytecode, deployedBytecode } = require("../artifacts/contracts/cs.sol/cs.json");
-
-const sepolia = "https://eth-sepolia.g.alchemy.com/v2/ZBpgdfRE-h1LUZYMR-m67rzagBd_bvJv";
-const web3 = new Web3(new Web3.providers.HttpProvider(sepolia));
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.sepolia));
 
 async function main() {
   //get account
@@ -26,4 +24,4 @@ async function main() {
 
 main();
 
-//Contract deployed to 0x7449Aba86D06d3b2c110138B5214F474C69749da
+//Contract deployed to 0x6EC591AD3e6eAC0CB48B8eF5022E1a70c6f08F04
