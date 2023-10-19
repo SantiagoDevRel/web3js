@@ -1,29 +1,29 @@
-const hre = require("hardhat");
 const { Web3 } = require("web3");
-const { abi, bytecode } = require("../artifacts/contracts/cs.sol/cs.json");
+require("dotenv").config();
 
-const rpcLink = "https://eth-sepolia.g.alchemy.com/v2/ZBpgdfRE-h1LUZYMR-m67rzagBd_bvJv";
-const web3 = new Web3(new Web3.providers.HttpProvider(rpcLink));
+const { abi, bytecode, deployedBytecode } = require("../artifacts/contracts/cs.sol/cs.json");
+
+const sepolia = "https://eth-sepolia.g.alchemy.com/v2/ZBpgdfRE-h1LUZYMR-m67rzagBd_bvJv";
+const web3 = new Web3(new Web3.providers.HttpProvider(sepolia));
 
 async function main() {
   //get account
-  const account = await web3.eth.getAccounts();
-  const defaultAccount = account[0];
-  console.log("account", defaultAccount);
+  const account = web3.eth.accounts.wallet.add(process.env.PK).get(0);
 
   //get contract
   const MyContract = new web3.eth.Contract(abi);
   const myContract = MyContract.deploy({
-    data: "0x" + bytecode,
+    data: bytecode,
     arguments: ["Hello CS"],
   });
 
   const tx = await myContract.send({
-    from: defaultAccount,
+    from: account.address,
   });
-  console.log(tx.options.address);
 
-  console.log(abi);
+  console.log(`contract deployed to ${tx.options.address}`);
 }
 
 main();
+
+//Contract deployed to 0x7449Aba86D06d3b2c110138B5214F474C69749da
