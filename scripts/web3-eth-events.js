@@ -2,7 +2,7 @@ const { Web3 } = require("web3");
 const abi = require("../artifacts/contracts/tether.json");
 require("dotenv").config();
 
-const web3 = new Web3(process.env.sepolia);
+const web3 = new Web3(process.env.sepolia_ws);
 
 async function main() {
   //initialize contract
@@ -11,7 +11,7 @@ async function main() {
 
   console.log("EVENTS", contract.events);
   const subscription = contract.events.Transfer();
-  //subscription.on("data", console.log);
+  subscription.on("data", console.log);
 }
 
 main();
